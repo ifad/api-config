@@ -7,11 +7,11 @@ require 'api_config'
 Gem::Specification.new do |spec|
   spec.name          = "api-config"
   spec.version       = APIConfig::VERSION
-  spec.authors       = ["Lleïr Borràs Metje"]
+  spec.authors       = ["Lleir Borras Metje"]
   spec.email         = ["l.borrasmetje@ifad.org"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
-  spec.homepage      = ""
+  spec.summary       = %q{A nice way to configure api url's and configuratios for a ruby app.}
+  spec.description   = %q{A nice way to configure api url's and configuratios for a ruby app.}
+  spec.homepage      = "http://code.ifad.org/api-config"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
