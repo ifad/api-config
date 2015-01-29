@@ -1,0 +1,12 @@
+development: &development
+  mycalls: 'http://mine.ifad.org/mycalls/'
+  quasar: 'http://mine.ifad.org/quasar/'
+  people_soft: 'http://mine.ifad.org/ps/'
+  people: 'http://people.staging.ifad.org/'
+  ciao:
+    url: 'http://ciao.staging.ifad.org/'
+    token: 'c028418c171d339d644b2097f493044443495e6676bb721110cf2f64f9193af1'
+
+test: *development
+production: *development
+staging: *development
