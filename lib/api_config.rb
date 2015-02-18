@@ -3,7 +3,8 @@ require 'yaml'
 
 module APIConfig
 
-  VERSION = '0.0.1'
+  VERSION = '0.0.2'
+  FILE    = 'config/api.yml'
 
   class << self
     def env
@@ -18,7 +19,7 @@ module APIConfig
 
     protected
       def configuration
-        @configuration ||= DeepStruct.new YAML.load_file('config/api.yml').fetch(APIConfig.env)
+        @configuration ||= DeepStruct.new YAML.load_file(FILE).fetch(APIConfig.env)
       end
   end
 
