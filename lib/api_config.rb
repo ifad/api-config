@@ -15,7 +15,7 @@ module APIConfig
     end
 
     def method_missing(m, *args, &block)
-      configuration.send(m)
+      configuration.public_send(m)
     end
 
     def reload!
