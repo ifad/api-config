@@ -3,8 +3,11 @@ require 'yaml'
 
 module APIConfig
 
-  VERSION = '0.0.2'
+  VERSION = '0.1.0'
   FILE    = 'config/api.yml'
+
+  class Error < StandardError
+  end
 
   class << self
     def env
@@ -13,8 +16,6 @@ module APIConfig
 
     def method_missing(m, *args, &block)
       configuration.send(m)
-    rescue
-      nil
     end
 
     protected
@@ -38,6 +39,15 @@ module APIConfig
 
     def to_h
       @hash_table
+    end
+
+    def method_missing(meth, *args, &block)
+      if meth.to_s =~ /\A(.+)!\Z/
+        setting = $1.intern
+        @table.fetch(setting) { raise Error, "API Setting `#{setting}' not found" }
+      else
+        super
+      end
     end
 
   end
