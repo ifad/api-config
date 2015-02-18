@@ -25,12 +25,14 @@ module APIConfig
   end
 
   class DeepStruct < OpenStruct
-    def initialize(hash=nil)
+    def initialize(hash = nil, parent = nil, branch = nil)
       @table      = {}
       @hash_table = {}
+      @parent     = parent
+      @branch     = branch
 
       (hash || []).each do |k,v|
-        @table[k.to_sym]      = (v.is_a?(Hash) ? self.class.new(v) : v)
+        @table[k.to_sym]      = (v.is_a?(Hash) ? self.class.new(v, self, k) : v)
         @hash_table[k.to_sym] = v
 
         new_ostruct_member(k)
@@ -41,10 +43,14 @@ module APIConfig
       @hash_table
     end
 
+    def path_for(key)
+      [(@parent ? @parent.path_for(@branch) : APIConfig.env), key].compact.join('.')
+    end
+
     def method_missing(meth, *args, &block)
       if meth.to_s =~ /\A(.+)!\Z/
         setting = $1.intern
-        @table.fetch(setting) { raise Error, "API Setting `#{setting}' not found in #{FILE}" }
+        @table.fetch(setting) { raise Error, "API Setting `#{path_for(setting)}' not found in #{FILE}" }
       else
         super
       end
