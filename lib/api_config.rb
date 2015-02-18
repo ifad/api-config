@@ -18,6 +18,11 @@ module APIConfig
       configuration.send(m)
     end
 
+    def reload!
+      @configuration = nil
+      configuration
+    end
+
     protected
       def configuration
         @configuration ||= DeepStruct.new YAML.load_file(FILE).fetch(APIConfig.env)
