@@ -44,7 +44,7 @@ module APIConfig
     def method_missing(meth, *args, &block)
       if meth.to_s =~ /\A(.+)!\Z/
         setting = $1.intern
-        @table.fetch(setting) { raise Error, "API Setting `#{setting}' not found" }
+        @table.fetch(setting) { raise Error, "API Setting `#{setting}' not found in #{FILE}" }
       else
         super
       end
