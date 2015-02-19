@@ -23,6 +23,14 @@ RSpec.describe APIConfig::DeepStruct do
       expect(subject.a).to     eq(:a)
       expect(subject.b.c.d).to eq(:e)
       expect(subject.b.c).to   eq(described_class.new(d: :e))
+      expect(subject.c).to     eq(nil)
+    end
+
+    it 'works with !' do
+      expect(subject.a!).to       eq(:a)
+      expect(subject.b!.c!.d!).to eq(:e)
+      expect(subject.b!.c!).to    eq(described_class.new(d: :e))
+      expect{subject.c!}.to       raise_error
     end
   end
 end

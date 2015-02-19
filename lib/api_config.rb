@@ -3,7 +3,7 @@ require 'yaml'
 
 module APIConfig
 
-  VERSION = '0.3.0'
+  VERSION = '0.3.1'
   FILE    = { default: 'config/api.yml' }
 
   class Error < StandardError
@@ -47,20 +47,23 @@ module APIConfig
         if _c = @configuration.public_send(which)
           _c
         else
-          @configuration.public_send("#{which}=", DeepStruct.new(YAML.load_file(FILE[which]).fetch(APIConfig.env)))
+          file = FILE[which]
+
+          @configuration.public_send("#{which}=", DeepStruct.new(YAML.load_file(file).fetch(APIConfig.env), file))
         end
       end
   end
 
   class DeepStruct < OpenStruct
-    def initialize(hash = nil, parent = nil, branch = nil)
+    def initialize(hash = nil, file = nil, parent = nil, branch = nil)
       @table      = {}
       @hash_table = {}
+      @file       = file
       @parent     = parent
       @branch     = branch
 
       (hash || []).each do |k,v|
-        @table[k.to_sym]      = (v.is_a?(Hash) ? self.class.new(v, self, k) : v)
+        @table[k.to_sym]      = (v.is_a?(Hash) ? self.class.new(v, file, self, k) : v)
         @hash_table[k.to_sym] = v
 
         new_ostruct_member(k)
@@ -78,7 +81,8 @@ module APIConfig
     def method_missing(meth, *args, &block)
       if meth.to_s =~ /\A(.+)!\Z/
         setting = $1.intern
-        @table.fetch(setting) { raise Error, "API Setting `#{path_for(setting)}' not found in #{FILE}" }
+
+        @table.fetch(setting) { raise Error, "API Setting `#{path_for(setting)}' not found in #{@file}" }
       else
         super
       end
@@ -86,3 +90,5 @@ module APIConfig
 
   end
 end
+
+require 'byebug'
