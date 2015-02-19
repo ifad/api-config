@@ -3,8 +3,8 @@ require 'yaml'
 
 module APIConfig
 
-  VERSION = '0.2.0'
-  FILE    = 'config/api.yml'
+  VERSION = '0.3.0'
+  FILE    = { default: 'config/api.yml' }
 
   class Error < StandardError
   end
@@ -15,17 +15,40 @@ module APIConfig
     end
 
     def method_missing(m, *args, &block)
-      configuration.public_send(m)
+      configuration(:default).public_send(m) || configuration(m)
     end
 
-    def reload!
-      @configuration = nil
-      configuration
+    def reload! which = :default
+      which = which.to_sym
+
+      if which == :all
+        @configuration = nil
+      else
+        defined?(@configuration) && @configuration.public_send("#{which}=", nil)
+      end
+
+      configuration which
+    end
+
+    def set_file file = 'config/api.yml', which = :default
+      which = which.to_sym
+
+      FILE[which] = file
+
+      reload! which
     end
 
     protected
-      def configuration
-        @configuration ||= DeepStruct.new YAML.load_file(FILE).fetch(APIConfig.env)
+      def configuration which = :default
+        which = which.to_sym
+
+        @configuration ||= DeepStruct.new
+
+        if _c = @configuration.public_send(which)
+          _c
+        else
+          @configuration.public_send("#{which}=", DeepStruct.new(YAML.load_file(FILE[which]).fetch(APIConfig.env)))
+        end
       end
   end
 
