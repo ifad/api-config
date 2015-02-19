@@ -3,7 +3,7 @@ require 'yaml'
 
 module APIConfig
 
-  VERSION = '0.3.2'
+  VERSION = '0.3.3'
   FILE    = { default: 'config/api.yml' }
 
   class Error < StandardError
