@@ -81,6 +81,14 @@ module APIConfig
       end
     end
 
+    def each(&block)
+      @table.each(&block)
+    end
+
+    def map(&block)
+      @table.map(&block)
+    end
+
     def to_h
       @hash_table
     end
