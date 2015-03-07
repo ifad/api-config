@@ -3,11 +3,7 @@ require 'yaml'
 
 module APIConfig
 
-  VERSION = '0.3.3'
-  FILE    = { default: 'config/api.yml' }
-
-  class Error < StandardError
-  end
+  VERSION = '0.4.0'
 
   class << self
     def env
@@ -15,43 +11,58 @@ module APIConfig
     end
 
     def method_missing(m, *args, &block)
-      configuration(:default).public_send(m) || configuration(m)
-    end
-
-    def reload! which = :default
-      which = which.to_sym
-
-      if which == :all
-        @configuration = nil
+      if configuration.key?(m)
+        # Get named configuration
+        configuration.fetch(m)
       else
-        defined?(@configuration) && @configuration.public_send("#{which}=", nil)
+        # Get item from default configuration
+        configuration_for(:default).public_send(m)
       end
-
-      configuration which
     end
 
-    def set_file file = 'config/api.yml', which = :default
-      which = which.to_sym
+    def reload!(which = :default)
+      if which == :all
+        configuration.clear
+        true
+      else
+        configuration.delete(which)
+        configuration_for(which)
+      end
+    end
 
-      FILE[which] = file
+    def add_file(which, file)
+      files[which] = file
 
-      reload! which
+      reload!(which)
     end
 
     protected
-      def configuration which = :default
-        which = which.to_sym
+      def configuration
+        @_configuration ||= {}
+      end
 
-        @configuration ||= DeepStruct.new
+      def files
+        @_files ||= { default: 'config/api.yml' }
+      end
 
-        if _c = @configuration.public_send(which)
-          _c
-        else
-          file = FILE[which]
-
-          @configuration.public_send("#{which}=", DeepStruct.new(YAML.load_file(file).fetch(APIConfig.env), file))
+      def configuration_for(which)
+        configuration.fetch(which) do
+          source = files.fetch(which)
+          configuration[which] = parse(source)
         end
       end
+
+      def parse(source)
+        config = YAML.load_file(source).fetch(APIConfig.env)
+
+        DeepStruct.new(config, source)
+
+      rescue => e
+        raise Error, "#{source}: #{e.message}"
+      end
+  end
+
+  class Error < StandardError
   end
 
   class DeepStruct < OpenStruct
