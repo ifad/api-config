@@ -37,6 +37,7 @@ module APIConfig
 
       reload! which
     end
+    alias add_file set_file
 
     protected
       def configuration which = :default
