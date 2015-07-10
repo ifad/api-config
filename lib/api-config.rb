@@ -3,11 +3,15 @@ require 'yaml'
 
 module APIConfig
 
-  VERSION = '0.4.2'
+  VERSION = '0.4.3'
 
   class << self
     def env
-      ENV['RAILS_ENV'] || ENV['RACK_ENV'] || 'development'
+      @@env ||= ENV['RAILS_ENV'] || ENV['RACK_ENV'] || 'development'
+    end
+
+    def env=(e)
+      @@env = e
     end
 
     def method_missing(m, *args, &block)
