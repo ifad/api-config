@@ -35,7 +35,11 @@ module APIConfig
 
       reload!(which)
     end
-    alias add_file set_file
+    alias set_file add_file
+
+    def get_file(which)
+      files[which]
+    end
 
     protected
       def configuration

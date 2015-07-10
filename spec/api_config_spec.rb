@@ -2,7 +2,7 @@ require 'spec_helper'
 
 RSpec.describe APIConfig do
   before do
-    described_class.set_file('spec/config/api.yml')
+    described_class.set_file(:default, 'spec/config/api.yml')
   end
 
   describe '.env' do
@@ -48,7 +48,7 @@ RSpec.describe APIConfig do
     it 'works' do
       foo = described_class.foo
 
-      described_class.set_file 'spec/config/foo.yml'
+      described_class.set_file :default, 'spec/config/foo.yml'
 
       expect(foo).not_to eq(described_class.foo)
     end
@@ -56,11 +56,11 @@ RSpec.describe APIConfig do
 
   describe '.set_file' do
     it 'works' do
-      file = described_class::FILE.dup
+      file = described_class.get_file(:default)
 
-      described_class.set_file 'spec/config/foo.yml'
+      described_class.set_file :default, 'spec/config/foo.yml'
 
-      expect(file).not_to eq(described_class::FILE)
+      expect(file).not_to eq(described_class.get_file(:default))
     end
   end
 end

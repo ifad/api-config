@@ -3,7 +3,7 @@ require 'spec_helper'
 RSpec.describe APIConfig::DeepStruct do
   let!(:hash) { { a: :a, b: { c: { d: :e }}} }
 
-  subject { APIConfig::DeepStruct.new(hash) }
+  subject { APIConfig::DeepStruct.new(hash, 'src') }
 
   describe '#to_h' do
     it 'works' do
@@ -30,7 +30,7 @@ RSpec.describe APIConfig::DeepStruct do
       expect(subject.a!).to       eq(:a)
       expect(subject.b!.c!.d!).to eq(:e)
       expect(subject.b!.c!).to    eq(described_class.new(d: :e))
-      expect{subject.c!}.to       raise_error
+      expect{subject.c!}.to       raise_error("API Setting `development.c' not found in src")
     end
   end
 end
