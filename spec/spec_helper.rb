@@ -20,7 +20,7 @@ Bundler.setup
 require 'pry'
 require 'byebug'
 
-require 'api_config'
+require 'api-config'
 
 RSpec.configure do |config|
   config.expose_dsl_globally = true
