@@ -13,4 +13,4 @@ cache: bundler
 bundler_args: --without development debug
 
 script:
-  - bundle exec rspec
+  - bundle exec rake
