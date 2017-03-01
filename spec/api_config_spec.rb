@@ -10,6 +10,7 @@ RSpec.describe APIConfig do
       expect(ENV).to receive(:[]).with('RAILS_ENV').and_return('foo')
 
       expect(described_class.env).to eq('foo')
+
     end
 
     it 'uses RACK_ENV' do
@@ -24,6 +25,38 @@ RSpec.describe APIConfig do
       expect(ENV).to receive(:[]).with('RACK_ENV').and_return(nil)
 
       expect(described_class.env).to eq('development')
+    end
+  end
+
+  describe '.env=' do
+    before do
+      described_class.env = 'foobarbaz'
+      @old_rails_env = ENV['RAILS_ENV']
+      @old_rack_env = ENV['RACK_ENV']
+    end
+
+    after do
+      described_class.env = nil
+      ENV['RAILS_ENV'] = @old_rails_env
+      ENV['RACK_ENV'] = @old_rack_env
+    end
+
+    it 'uses defined environment value' do
+      expect(described_class.env).to eq('foobarbaz')
+    end
+
+    it 'uses defined environment value even if RAILS_ENV is set' do
+      ENV['RAILS_ENV'] = 'foo'
+
+      expect(described_class.env).to eq('foobarbaz')
+    end
+
+
+    it 'uses defined environment value even if RACK_ENV is set' do
+      ENV['RAILS_ENV'] = nil
+      ENV['RACK_ENV'] = 'bar'
+
+      expect(described_class.env).to eq('foobarbaz')
     end
   end
 

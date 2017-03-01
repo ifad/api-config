@@ -6,3 +6,7 @@ test:
 development:
   foo: foo
   bar: bar
+
+foobarbaz:
+  foo: foo
+  bar: bar

@@ -7,7 +7,7 @@ module APIConfig
 
   class << self
     def env
-      @@env ||= ENV['RAILS_ENV'] || ENV['RACK_ENV'] || 'development'
+      environment || ENV['RAILS_ENV'] || ENV['RACK_ENV'] || 'development'
     end
 
     def env=(e)
@@ -46,6 +46,10 @@ module APIConfig
     end
 
     protected
+      def environment
+        @@env ||= nil
+      end
+
       def configuration
         @_configuration ||= {}
       end
