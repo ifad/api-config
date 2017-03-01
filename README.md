@@ -1,6 +1,9 @@
+
+[![Build Status](https://travis-ci.org/ifad/api-config.svg?branch=master)](https://travis-ci.org/ifad/api-config)
+
 # Api::Config
 
-TODO: Write a gem description
+A simple way to maintain configurations in a Ruby project using YAML file
 
 ## Installation
 
@@ -20,7 +23,10 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```Ruby
+APIConfig.foo
+APIConfig.bar.goo
+```
 
 ## Contributing
 

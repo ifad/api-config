@@ -14,7 +14,7 @@ module APIConfig
       @@env = e
     end
 
-    def method_missing(m, *args, &block)
+    def method_missing(m)
       if configuration.key?(m)
         # Get named configuration
         configuration.fetch(m)
