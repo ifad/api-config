@@ -3,7 +3,7 @@ require 'yaml'
 
 module APIConfig
 
-  VERSION = '0.4.4'
+  VERSION = '0.4.5'
 
   class << self
     def env
