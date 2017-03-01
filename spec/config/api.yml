@@ -1,12 +1,12 @@
 test:
-  foo: bar
-  bar:
-    baz: barbaz
+  foo: foo
+  bar: bar
 
 development:
   foo: foo
   bar: bar
 
 foobarbaz:
-  foo: foo
-  bar: bar
+  foo: bar
+  bar:
+    baz: barbaz

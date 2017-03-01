@@ -62,14 +62,12 @@ RSpec.describe APIConfig do
 
   describe '.method_missing' do
     it 'works' do
-      expect(described_class.env).to eq('development')
-
       expect(described_class.foo).to eq('foo')
       expect(described_class.bar).to eq('bar')
     end
 
     it 'gets the correct root key' do
-      expect(described_class).to receive(:env).and_return('test')
+      expect(described_class).to receive(:env).and_return('foobarbaz')
       described_class.reload!
 
       expect(described_class.foo).to eq('bar')

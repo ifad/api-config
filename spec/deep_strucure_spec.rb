@@ -30,7 +30,7 @@ RSpec.describe APIConfig::DeepStruct do
       expect(subject.a!).to       eq(:a)
       expect(subject.b!.c!.d!).to eq(:e)
       expect(subject.b!.c!).to    eq(described_class.new(d: :e))
-      expect{subject.c!}.to       raise_error("API Setting `development.c' not found in src")
+      expect{subject.c!}.to       raise_error("API Setting `test.c' not found in src")
     end
   end
 end
