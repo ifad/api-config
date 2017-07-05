@@ -21,7 +21,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'bundler'
   spec.add_dependency 'rake'
-  spec.add_dependency 'rspec'
+  spec.add_development_dependency 'rspec'
   spec.add_development_dependency 'pry'
   spec.add_development_dependency 'byebug'
 end
