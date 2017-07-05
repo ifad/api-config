@@ -10,7 +10,5 @@ rvm:
 sudo: false
 cache: bundler
 
-bundler_args: --without development debug
-
 script:
   - bundle exec rake
