@@ -89,8 +89,6 @@ module APIConfig
       (hash || []).each do |k,v|
         @table[k.to_sym]      = (v.is_a?(Hash) ? self.class.new(v, file, self, k) : v)
         @hash_table[k.to_sym] = v
-
-        new_ostruct_member(k)
       end
     end
 
