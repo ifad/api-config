@@ -1,5 +1,5 @@
 
-[![Build Status](https://travis-ci.org/ifad/api-config.svg?branch=master)](https://travis-ci.org/ifad/api-config)
+[![Build Status](https://github.com/ifad/api-config/actions/workflows/ci.yml/badge.svg)](https://github.com/ifad/api-config/actions)
 
 # Api::Config
 
