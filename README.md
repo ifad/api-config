@@ -1,5 +1,5 @@
 
-[![Build Status](https://github.com/ifad/api-config/actions/workflows/ci.yml/badge.svg)](https://github.com/ifad/api-config/actions)
+[![Build Status](https://github.com/ifad/api-config/actions/workflows/ruby.yml/badge.svg)](https://github.com/ifad/api-config/actions)
 
 # Api::Config
 
