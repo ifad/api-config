@@ -66,7 +66,12 @@ module APIConfig
       end
 
       def parse(source)
-        config = YAML.load_file(source).fetch(APIConfig.env)
+        config =
+          if YAML.respond_to?(:unsafe_load_file)
+            YAML.unsafe_load_file(source).fetch(APIConfig.env)
+          else
+            YAML.load_file(source).fetch(APIConfig.env)
+          end
 
         DeepStruct.new(config, source)
 
