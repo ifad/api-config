@@ -28,6 +28,17 @@ APIConfig.foo
 APIConfig.bar.goo
 ```
 
+## Ruby 3.0.x
+
+An issue with the `ostruct` version shipped with Ruby does not allow Api::Conifg
+to work propertly.
+
+Until this is fixed in Ruby, please add to your Gemfile
+
+```rb
+gem 'ostruct', '0.4.0'
+```
+
 ## Contributing
 
 1. Fork it ( https://github.com/[my-github-username]/api-config/fork )
