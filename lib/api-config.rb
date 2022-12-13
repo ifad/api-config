@@ -4,7 +4,7 @@ require 'yaml'
 
 module APIConfig
 
-  VERSION = '0.4.7'
+  VERSION = '0.4.8'
 
   class << self
     def env
@@ -69,7 +69,7 @@ module APIConfig
       def parse(source)
         erb_result = ERB.new(File.read(source)).result
         config =
-          if RUBY_VERSION >= '3.0.0'
+          if YAML::VERSION >= '4.0'
             YAML.safe_load(erb_result, aliases: true).fetch(APIConfig.env)
           else
             YAML.load(erb_result).fetch(APIConfig.env)
