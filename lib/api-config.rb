@@ -1,9 +1,10 @@
+require 'erb'
 require 'ostruct'
 require 'yaml'
 
 module APIConfig
 
-  VERSION = '0.4.6'
+  VERSION = '0.4.7'
 
   class << self
     def env
