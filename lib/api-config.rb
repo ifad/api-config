@@ -3,7 +3,7 @@ require 'yaml'
 
 module APIConfig
 
-  VERSION = '0.4.5'
+  VERSION = '0.4.6'
 
   class << self
     def env
@@ -66,13 +66,13 @@ module APIConfig
       end
 
       def parse(source)
+        erb_result = ERB.new(File.read(source)).result
         config =
-          if YAML.respond_to?(:unsafe_load_file)
-            YAML.unsafe_load_file(source).fetch(APIConfig.env)
+          if RUBY_VERSION >= '3.0.0'
+            YAML.safe_load(erb_result, aliases: true).fetch(APIConfig.env)
           else
-            YAML.load_file(source).fetch(APIConfig.env)
+            YAML.load(erb_result).fetch(APIConfig.env)
           end
-
         DeepStruct.new(config, source)
 
       rescue => e
