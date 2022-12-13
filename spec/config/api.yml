@@ -1,5 +1,5 @@
 test:
-  foo: foo
+  foo: "<%= "#{102.chr}o" + 'o' %>"
   bar: bar
 
 development:
