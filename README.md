@@ -30,13 +30,13 @@ APIConfig.bar.goo
 
 ## Ruby 3.0.x
 
-An issue with the `ostruct` version shipped with Ruby does not allow Api::Conifg
-to work propertly.
+An issue with the `ostruct` version shipped with Ruby 3.0.x does not allow
+Api::Conifg to work propertly.
 
-Until this is fixed in Ruby, please add to your Gemfile
+If you are using Ruby 3.0.x, please add to your Gemfile
 
 ```rb
-gem 'ostruct', '0.4.0'
+gem 'ostruct', '> 0.3.1'
 ```
 
 ## Contributing
