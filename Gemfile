@@ -1,9 +1,17 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in api-config.gemspec
 gemspec
 
-# TODO: Workaround for ifad/api-config#4
-if RUBY_VERSION >= '3.0.0'
-  gem 'ostruct', '!= 0.3.1'
-end
+gem 'byebug'
+gem 'rake'
+gem 'rspec'
+gem 'simplecov'
+
+gem 'rubocop', require: false
+gem 'rubocop-packaging', require: false
+gem 'rubocop-performance', require: false
+gem 'rubocop-rails', require: false
+gem 'rubocop-rake', require: false
+gem 'rubocop-rspec', require: false

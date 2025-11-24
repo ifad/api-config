@@ -24,19 +24,8 @@ Or install it yourself as:
 ## Usage
 
 ```Ruby
-APIConfig.foo
-APIConfig.bar.goo
-```
-
-## Ruby 3.0.x
-
-An issue with the `ostruct` version shipped with Ruby 3.0.x does not allow
-`Api::Config` to work properly.
-
-If you are using Ruby 3.0.x, please add to your Gemfile
-
-```rb
-gem 'ostruct', '> 0.3.1'
+ApiConfig.foo
+ApiConfig.bar.goo
 ```
 
 ## Contributing
