@@ -1,0 +1,47 @@
+inherit_from: .rubocop_todo.yml
+
+plugins:
+  - rubocop-packaging
+  - rubocop-performance
+  - rubocop-rake
+  - rubocop-rspec
+
+AllCops:
+  NewCops: enable
+  TargetRubyVersion: 3.1
+  Exclude:
+    - .git/**/*
+    - .github/**/*
+    - bin/**/*
+    - gemfiles/**/*
+    - node_modules/**/*
+    - tmp/**/*
+    - vendor/**/*
+
+Layout/LineLength:
+  Enabled: false
+
+Metrics/ClassLength:
+  Exclude:
+    - lib/sharepoint/client.rb
+
+RSpec/ExampleLength:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Enabled: false
+
+RSpec/MultipleMemoizedHelpers:
+  Max: 10
+
+RSpec/NestedGroups:
+  Enabled: false
+
+Style/ArgumentsForwarding:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Style/OpenStructUse:
+  Enabled: false

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 RSpec.describe APIConfig do
@@ -10,7 +12,6 @@ RSpec.describe APIConfig do
       expect(ENV).to receive(:[]).with('RAILS_ENV').and_return('foo')
 
       expect(described_class.env).to eq('foo')
-
     end
 
     it 'uses RACK_ENV' do
@@ -31,8 +32,8 @@ RSpec.describe APIConfig do
   describe '.env=' do
     before do
       described_class.env = 'foobarbaz'
-      @old_rails_env = ENV['RAILS_ENV']
-      @old_rack_env = ENV['RACK_ENV']
+      @old_rails_env = ENV.fetch('RAILS_ENV', nil)
+      @old_rack_env = ENV.fetch('RACK_ENV', nil)
     end
 
     after do
@@ -50,7 +51,6 @@ RSpec.describe APIConfig do
 
       expect(described_class.env).to eq('foobarbaz')
     end
-
 
     it 'uses defined environment value even if RACK_ENV is set' do
       ENV['RAILS_ENV'] = nil

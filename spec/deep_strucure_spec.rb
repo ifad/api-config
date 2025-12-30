@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 RSpec.describe APIConfig::DeepStruct do
-  let!(:hash) { { a: :a, b: { c: { d: :e }}} }
+  subject { described_class.new(hash, 'src') }
 
-  subject { APIConfig::DeepStruct.new(hash, 'src') }
+  let!(:hash) { { a: :a, b: { c: { d: :e } } } }
 
   describe '#to_h' do
     it 'works' do
@@ -23,14 +25,14 @@ RSpec.describe APIConfig::DeepStruct do
       expect(subject.a).to     eq(:a)
       expect(subject.b.c.d).to eq(:e)
       expect(subject.b.c).to   eq(described_class.new(d: :e))
-      expect(subject.c).to     eq(nil)
+      expect(subject.c).to     be_nil
     end
 
     it 'works with !' do
       expect(subject.a!).to       eq(:a)
       expect(subject.b!.c!.d!).to eq(:e)
       expect(subject.b!.c!).to    eq(described_class.new(d: :e))
-      expect{subject.c!}.to       raise_error("API Setting `test.c' not found in src")
+      expect { subject.c! }.to raise_error("API Setting `test.c' not found in src")
     end
   end
 end
