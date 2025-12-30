@@ -1,25 +1,24 @@
-# coding: utf-8
-lib = File.expand_path('../lib', __FILE__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+# frozen_string_literal: true
 
-require 'api-config'
+$LOAD_PATH.push File.expand_path('lib', __dir__)
+require 'api-config/version'
 
-Gem::Specification.new do |spec|
-  spec.name          = 'api-config'
-  spec.version       = APIConfig::VERSION
-  spec.authors       = ['Lleir Borras Metje', 'Marcello Barnaba']
-  spec.email         = ['l.borrasmetje@ifad.org', 'm.barnaba@ifad.org']
-  spec.summary       = %q{A nice way to configure api url's and configuratios for a ruby app.}
-  spec.description   = %q{A nice way to configure api url's and configuratios for a ruby app.}
-  spec.homepage      = 'http://code.ifad.org/api-config'
-  spec.license       = 'MIT'
+Gem::Specification.new do |gem|
+  gem.name          = 'api-config'
+  gem.version       = APIConfig::VERSION
+  gem.authors       = ['Lleir Borras Metje', 'Marcello Barnaba']
+  gem.email         = ['l.borrasmetje@ifad.org', 'm.barnaba@ifad.org']
+  gem.summary       = "A nice way to configure api url's and configuratios for a ruby app."
+  gem.description   = "A nice way to configure api url's and configuratios for a ruby app."
+  gem.homepage      = 'https://github.com/ifad/api-config'
+  gem.license       = 'MIT'
 
-  spec.files         = `git ls-files -z`.split("\x0")
-  spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
-  spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
-  spec.require_paths = ['lib']
+  gem.files          = Dir.glob('{LICENSE,README.md,lib/**/*.rb}', File::FNM_DOTMATCH)
+  gem.require_paths  = ['lib']
 
-  spec.add_dependency 'bundler'
-  spec.add_dependency 'rake'
-  spec.add_development_dependency 'rspec'
+  gem.required_ruby_version = '>= 3.1'
+
+  gem.add_dependency 'ostruct'
+
+  gem.metadata['rubygems_mfa_required'] = 'true'
 end

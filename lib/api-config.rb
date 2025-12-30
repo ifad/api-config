@@ -1,11 +1,12 @@
+# frozen_string_literal: true
+
 require 'erb'
 require 'ostruct'
 require 'yaml'
 
+require_relative 'api-config/version'
+
 module APIConfig
-
-  VERSION = '0.4.8'
-
   class << self
     def env
       environment || ENV['RAILS_ENV'] || ENV['RACK_ENV'] || 'development'
@@ -47,38 +48,33 @@ module APIConfig
     end
 
     protected
-      def environment
-        @@env ||= nil
-      end
 
-      def configuration
-        @_configuration ||= {}
-      end
+    def environment
+      @@env ||= nil
+    end
 
-      def files
-        @_files ||= { default: 'config/api.yml' }
-      end
+    def configuration
+      @configuration ||= {}
+    end
 
-      def configuration_for(which)
-        configuration.fetch(which) do
-          source = files.fetch(which)
-          configuration[which] = parse(source)
-        end
-      end
+    def files
+      @files ||= { default: 'config/api.yml' }
+    end
 
-      def parse(source)
-        erb_result = ERB.new(File.read(source)).result
-        config =
-          if YAML::VERSION >= '4.0'
-            YAML.safe_load(erb_result, aliases: true).fetch(APIConfig.env)
-          else
-            YAML.load(erb_result).fetch(APIConfig.env)
-          end
-        DeepStruct.new(config, source)
-
-      rescue => e
-        raise Error, "#{source}: #{e.message}"
+    def configuration_for(which)
+      configuration.fetch(which) do
+        source = files.fetch(which)
+        configuration[which] = parse(source)
       end
+    end
+
+    def parse(source)
+      erb_result = ERB.new(File.read(source)).result
+      config = YAML.safe_load(erb_result, aliases: true).fetch(APIConfig.env)
+      DeepStruct.new(config, source)
+    rescue StandardError => e
+      raise Error, "#{source}: #{e.message}"
+    end
   end
 
   class Error < StandardError
@@ -92,18 +88,18 @@ module APIConfig
       @parent     = parent
       @branch     = branch
 
-      (hash || []).each do |k,v|
+      (hash || []).each do |k, v|
         @table[k.to_sym]      = (v.is_a?(Hash) ? self.class.new(v, file, self, k) : v)
         @hash_table[k.to_sym] = v
       end
     end
 
-    def each(&block)
-      @table.each(&block)
+    def each(&)
+      @table.each(&)
     end
 
-    def map(&block)
-      @table.map(&block)
+    def map(&)
+      @table.map(&)
     end
 
     def to_h
@@ -114,15 +110,14 @@ module APIConfig
       [(@parent ? @parent.path_for(@branch) : APIConfig.env), key].compact.join('.')
     end
 
-    def method_missing(meth, *args, &block)
+    def method_missing(meth, *args, &)
       if meth.to_s =~ /\A(.+)!\Z/
-        setting = $1.intern
+        setting = ::Regexp.last_match(1).intern
 
         @table.fetch(setting) { raise Error, "API Setting `#{path_for(setting)}' not found in #{@file}" }
       else
         super
       end
     end
-
   end
 end
